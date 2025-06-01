@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ title | capfirst }}{% endblock title %}
+{% block styles %}
+<link href="{% static 'custom.css' %}" rel="stylesheet">
+{% endblock styles %}
+
+{% block banner %}
+<div class="col-md-12 bg-primary p-4 text-center banner" style="background-image: url({% static 'banner.jpg' %});">
+    {% if subtitle %}<h1>{{ subtitle | capfirst }}</h1>{% endif %}
+</div>
+<div class="col-12 p-2 bg-white text-primary" style="border: 1px solid #000">
+    <div class="row">
+        <div class="col-6 float-left text-left">
+            <a href="{% url "movies:index" %}">Volver</a>
+        </div>
+        <div class="col-6 float-right text-right">
+            <a href="{% url "movies:add_movie" %}">Añadir película</a>
+        </div>
+    </div>
+</div>
+{% endblock banner %}
+
+{% block content %}
+<div class="row">
+    <div class="mt-2 col-md-12">
+        <div class="row">
+            <div class="col-12">
+                <h3 class="p-2">Películas</h3>
+            </div>
+            {% for movie in movies %}
+            <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 pb-3">
+                <div class="card card-custom bg-white border-white border-0">
+                    <div class="card-custom-img" style="background-image: url({{ movie.poster.url }});background-color: #e3ecf8 !important;"></div>
+                    <div class="card-body" style="overflow-y: auto">
+                        <h4 class="card-title">{{ movie.title }} ({{ movie.year }})</h4>
+                        <p class="card-genre">{{ movie.genre }}</p>
+                        <p class="card-text">{{ movie.description|truncatechars:90 }}</p>
+                    </div>
+                    <div class="card-footer text-center" style="background: inherit; border-color: inherit;">
+                        <a href="movie/{{movie.id}}" class="btn btn-primary">Ver película</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock content %}

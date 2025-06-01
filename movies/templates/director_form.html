@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ title }}{% endblock title %}
+{% block styles %}
+<link href="{% static 'custom.css' %}" rel="stylesheet">
+{% endblock styles %}
+
+{% block banner %}
+<div class="col-md-12 bg-primary p-4 text-center d-flex align-items-center justify-content-center banner-movie" style="background-image: url({% static 'banner_add.png'|default:'/static/banner.jpg' %});">
+    {% if subtitle %}<h1 class="title-add">{{ subtitle | capfirst }}</h1>{% endif %}
+</div>
+<div class="col-12 p-2 mb-4 text-primary">
+    <a href="{% url "movies:index" %}">Volver</a>
+</div>
+{% endblock banner %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_div }}
+            <div class="mt-4">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock content %}
